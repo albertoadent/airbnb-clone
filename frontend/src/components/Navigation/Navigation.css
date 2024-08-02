@@ -1,0 +1,98 @@
+.nav {
+  display: flex;
+  justify-content: right;
+  align-content: center;
+  align-items: center;
+}
+
+.nav li {
+  margin: 10px;
+  list-style-type: none;
+}
+
+.navButton {
+  display: flex;
+  justify-content: center;
+  border: solid black;
+  border-radius: 5px 5px 5px;
+  box-shadow: blue 3px 3px 3px;
+  margin: 0px;
+  padding: 0px;
+  width: 120px;
+  height: 30px;
+}
+
+.navButton > a,
+.navButton > button {
+  text-decoration: none;
+  color: black;
+  text-align: center;
+  align-content: center;
+  width: 200px;
+  height: 30px;
+  background: rgb(50, 101, 150);
+  border: none;
+}
+
+.navButton > a:hover,
+.navButton > button:hover {
+  text-decoration: none;
+  background: rgb(87, 87, 87);
+  border: none;
+  color: blue;
+  cursor: pointer;
+}
+
+.profileButton {
+  display: grid;
+  grid-column: 1fr 1fr 1fr 1fr;
+  grid-row: 1fr;
+  width: 126px;
+  height: 36px;
+}
+
+.profileButton > button {
+  text-decoration: none;
+  color: black;
+  border: solid black;
+  padding: 3px;
+  border-radius: 5px 5px 5px;
+  box-shadow: blue 3px 3px 3px;
+  background: rgb(50, 101, 150);
+}
+
+.profileButton > button:hover {
+  text-decoration: none;
+  color: blue;
+  border: solid black;
+  background: rgb(87, 87, 87);
+  padding: 3px;
+  border-radius: 5px 5px 5px;
+}
+
+.profile-dropdown {
+  border: solid black;
+  text-align: center;
+  align-items: center;
+  padding: 0px;
+  width: 120px;
+}
+
+.profile-dropdown .navButton {
+  background: rgb(50, 101, 150);
+  border: solid black;
+  text-align: center;
+  align-items: center;
+  padding: 0px;
+  width: 100px;
+  height: 40px;
+}
+
+.profile-dropdown .navButton:hover {
+  text-decoration: none;
+  color: blue;
+  border: solid black;
+  background: rgb(87, 87, 87);
+  padding: 3px;
+  border-radius: 5px 5px 5px;
+}

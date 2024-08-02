@@ -1,0 +1,19 @@
+/* TODO: Add sitewide styles */
+body {
+  background: rgb(50, 101, 150);
+}
+
+.title {
+  text-align: center;
+  border: solid black;
+  border-radius: 10px;
+  grid-column: 1 / 3;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-content: center;
+  margin-left: 120px;
+  margin-right: 120px;
+  padding: 5px;
+  background: rgba(216, 220, 255, 0.829);
+}
