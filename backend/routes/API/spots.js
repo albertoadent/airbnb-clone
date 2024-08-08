@@ -82,7 +82,10 @@ get("/", async ({ query }) => {
     };
   }
 
-  const Spots = await Spot.findAll(options);
+  const Spots = await Spot.findAll({
+    ...options,
+    attributes: { include: ["createdAt", "updatedAt"] },
+  });
   return { Spots };
 });
 
@@ -100,6 +103,9 @@ get(
   {
     requireAuth: false,
     exists: {
+      attributes: {
+        include: ["createdAt", "updatedAt"],
+      },
       include: [
         { model: SpotImage, attributes: ["id", "url", "preview"] },
         {
@@ -107,10 +113,15 @@ get(
           as: "Owner",
           attributes: ["id", "firstName", "lastName"],
         },
+        { model: Review, attributes: ["id"] },
       ],
     },
   },
-  async ({ spot }) => spot
+  async ({ spot }) => {
+    const data = { ...spot.toJSON(), numReviews: spot.toJSON().Reviews.length };
+    delete data.Reviews;
+    return data;
+  }
 );
 
 post("/", { requireAuth: true, validation: "Spot" }, async ({ user, body }) =>
@@ -130,8 +141,14 @@ post("/:spotId/images", { authorization: true }, async ({ spot, body }) => {
 
 put(
   "/:spotId",
-  { authorization: true, validation: "Spot" },
-  async ({ spot, body }) => spot.update(body)
+  {
+    exists: { attributes: { include: ["createdAt", "updatedAt"] } },
+    authorization: true,
+    validation: "Spot",
+  },
+  async ({ spot, body }) => {
+    return spot.update(body);
+  }
 );
 del(
   "/:spotId",

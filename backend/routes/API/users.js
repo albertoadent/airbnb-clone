@@ -63,6 +63,7 @@ router.post("/", validateSignup, async (req, res, next) => {
 });
 
 router.use("/", (err, req, res, next) => {
+  if(!err) next()
   const error = { message: "User already exists", errors: {} };
   if (req.url !== "/") return next(err);
   if(!Array.isArray(err)) return next(err)

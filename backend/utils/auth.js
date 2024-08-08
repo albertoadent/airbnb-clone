@@ -94,7 +94,7 @@ const exists = (options) => async (req, res, next) => {
           ? undefined
           : (options && options[modelName.toLowerCase()]) || options
       );
-      // console.log("modelInstance");
+      // console.log(modelInstance);
       if (!modelInstance) {
         err = new Error(`${capitalizedModelName} couldn't be found`);
         err.status = 404;
@@ -110,6 +110,7 @@ const exists = (options) => async (req, res, next) => {
     await Promise.all(promises);
     next();
   } catch (err) {
+    console.log(err)
     next(err);
   }
 };
@@ -117,6 +118,8 @@ const exists = (options) => async (req, res, next) => {
 const authorizeUser = (options) => async (req, res, next) => {
   try {
     const { params, user } = req;
+
+    // console.log("authUser403 options",options)
 
     const throw403 = () => {
       const error = new Error("Forbidden");
@@ -156,10 +159,16 @@ const authorizeUser = (options) => async (req, res, next) => {
 
         //if it doesn't coincide with the options object then throw 403
         if (shouldBeUsers !== modelIsUsers) {
+          if(process.env.NODE_ENV === "development"){
+            console.log("should be users is not equvalent to it being users")
+          }
           throw403();
         }
       } else {
         if (!modelIsUsers) {
+          if(process.env.NODE_ENV === "development"){
+            console.log("Model is not users")
+          }
           throw403();
         }
       }
@@ -189,13 +198,15 @@ const authorization = (optionsObj) => {
     authorization: check403,
   } = optionsObj;
 
+  // console.log("options",check401,check403,check404)
+
   return [
     check401 ? requireAuth : undefined,
     check404
       ? exists(typeof check404 === "boolean" ? undefined : check404)
       : undefined,
     check403
-      ? authorizeUser(typeof check404 === "boolean" ? undefined : check404)
+      ? authorizeUser(typeof check403 === "boolean" ? undefined : check403)
       : undefined,
   ].filter((func) => func !== undefined);
 };

@@ -58,11 +58,26 @@ module.exports = (sequelize, DataTypes) => {
       city: { type: DataTypes.STRING },
       state: { type: DataTypes.STRING },
       country: DataTypes.STRING,
-      lat: { type: DataTypes.DECIMAL },
-      lng: { type: DataTypes.DECIMAL },
+      lat: {
+        type: DataTypes.DECIMAL,
+        get() {
+          return parseFloat(this.getDataValue("lat"));
+        },
+      },
+      lng: {
+        type: DataTypes.DECIMAL,
+        get() {
+          return parseFloat(this.getDataValue("lng"));
+        },
+      },
       name: { type: DataTypes.STRING },
       description: { type: DataTypes.STRING },
-      price: { type: DataTypes.DECIMAL },
+      price: {
+        type: DataTypes.DECIMAL,
+        get() {
+          return parseFloat(this.getDataValue("price"));
+        },
+      },
       previewImage: {
         type: DataTypes.VIRTUAL,
         get() {
@@ -78,16 +93,16 @@ module.exports = (sequelize, DataTypes) => {
       createdAt: {
         type: DataTypes.DATE,
         get() {
-          const date = this.getDataValue('createdAt');
-          return date ? date.toISOString().split('T')[0] : null;
-        }
+          const date = this.getDataValue("createdAt");
+          return date ? date.toISOString().split("T")[0] : null;
+        },
       },
       updatedAt: {
         type: DataTypes.DATE,
         get() {
-          const date = this.getDataValue('updatedAt');
-          return date ? date.toISOString().split('T')[0] : null;
-        }
+          const date = this.getDataValue("updatedAt");
+          return date ? date.toISOString().split("T")[0] : null;
+        },
       },
     },
     {

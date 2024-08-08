@@ -59,7 +59,7 @@ app.use((err, _req, _res, next) => {
   next(err);
 });
 app.use((err, _req, res, _next) => {
-  if (err.status && !err.title) {
+  if (err.status) {
     switch (err.status) {
       case 404:
         err.title = err.message || "Resource Not Found";
