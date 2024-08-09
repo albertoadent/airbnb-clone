@@ -68,12 +68,17 @@ app.use((err, _req, res, _next) => {
         err.title = err.message || "Validation Error";
         break;
       case 403:
+        if (err.message.includes("Sorry")) {
+          return res.status(403).json({
+            message: err.message,
+            errors: err.errors,
+          });
+        }
         return res.status(403).json({
           message:
             err.message.includes("csrf") ||
             err.message.includes("Maximum") ||
-            err.message.includes("Bookings") ||
-            err.message.includes("Sorry")
+            err.message.includes("Bookings")
               ? err.message
               : "Forbidden",
         });

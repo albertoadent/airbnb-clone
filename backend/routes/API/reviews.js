@@ -26,6 +26,8 @@ get("/current", { requireAuth: true }, async ({ user }) => {
     ],
   });
 
+  // const Reviews = reviews.map((rev) => rev.toJSON());
+
   for (rev of Reviews) rev.Spot.previewImage = await rev.Spot.getPreviewImage();
 
   return { Reviews };
@@ -48,7 +50,11 @@ post(
 );
 put(
   "/:reviewId",
-  { authorization: true, validation: "Review" },
+  {
+    exists: { attributes: { include: ["createdAt", "updatedAt"] } },
+    authorization: true,
+    validation: "Review",
+  },
   async ({ review, body }) => {
     const data = await review.update(body);
     return data;

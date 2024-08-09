@@ -25,7 +25,12 @@ get("/current", { requireAuth: true }, async ({ user }) => {
       "createdAt",
       "updatedAt",
     ],
-    include: { model: Spot },
+    include: {
+      model: Spot,
+      attributes: {
+        include: ["createdAt", "updatedAt"],
+      },
+    },
   });
   for (book of Bookings) {
     book.Spot.previewImage = await book.Spot.getPreviewImage();
@@ -35,14 +40,18 @@ get("/current", { requireAuth: true }, async ({ user }) => {
 
 put(
   "/:bookingId",
-  { authorization: true, validation: "Booking" },
+  {
+    exists: { attributes: { include: ["createdAt", "updatedAt"] } },
+    authorization: true,
+    validation: "Booking",
+  },
   async ({ booking, body, user }) => {
     const spot = await booking.getSpot();
     const formatDate = (date) => {
-        const year = date.getUTCFullYear();
-        const month = String(date.getUTCMonth() + 1).padStart(2, "0"); // Months are 0-based, so add 1
-        const day = String(date.getUTCDate()).padStart(2, "0");
-        return `${year}-${month}-${day}`;
+      const year = date.getUTCFullYear();
+      const month = String(date.getUTCMonth() + 1).padStart(2, "0"); // Months are 0-based, so add 1
+      const day = String(date.getUTCDate()).padStart(2, "0");
+      return `${year}-${month}-${day}`;
     };
     const startDate = formatDate(new Date(body.startDate));
     const endDate = formatDate(new Date(body.endDate));
@@ -67,9 +76,28 @@ put(
     }
 
     if (Bookings[0]) {
+      const confilctingBooking = Bookings[0].toJSON();
+      const errors = {};
+      if (
+        startDate <= confilctingBooking.endDate &&
+        startDate >= confilctingBooking.startDate
+      ) {
+        errors.startDate = "Start date conflicts with an existing booking";
+      }
+      if (
+        endDate <= confilctingBooking.endDate &&
+        endDate >= confilctingBooking.startDate
+      ) {
+        errors.endDate = "End date conflicts with an existing booking";
+      }
+      if (!errors.startDate && !errors.endDate) {
+        errors.startDate = "Start date conflicts with an existing booking";
+        errors.endDate = "End date conflicts with an existing booking";
+      }
       throwError(
         403,
-        "Sorry, this spot is already booked for the specified dates"
+        "Sorry, this spot is already booked for the specified dates",
+        errors
       );
     }
 

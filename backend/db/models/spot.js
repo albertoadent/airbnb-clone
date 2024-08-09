@@ -14,6 +14,7 @@ module.exports = (sequelize, DataTypes) => {
           preview: true,
         },
       });
+      if(!previewImage) return null;
       return previewImage.toJSON().url;
     }
 

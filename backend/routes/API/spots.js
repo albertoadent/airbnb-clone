@@ -16,7 +16,7 @@ const {
   Sequelize,
 } = route();
 
-get("/", async ({ query }) => {
+get("/", { validation: "spotquery" }, async ({ query }) => {
   let {
     page = 1,
     size = 20,
@@ -194,8 +194,8 @@ post(
 get(
   "/:spotId/bookings",
   { requireAuth: true, authorization: { spot: true } },
-  async ({ spot }) =>
-    spot.getBookings({
+  async ({ spot }) => {
+    const Bookings = await spot.getBookings({
       include: {
         model: User,
         attributes: ["id", "firstName", "lastName"],
@@ -203,25 +203,31 @@ get(
       attributes: {
         include: ["createdAt", "updatedAt"],
       },
-    })
+    });
+    return { Bookings };
+  }
 );
 
 catchRoute(
   "/:spotId/bookings",
   { requireAuth: true },
-  async ({ spot, user }) =>
-    spot.getBookings({
+  async ({ spot, user }) => {
+    const Bookings = await spot.getBookings({
       attributes: ["spotId", "startDate", "endDate"],
       where: {
         userId: user.id,
       },
-    }),
+    });
+    return { Bookings };
+  },
   "GET"
 );
 
 post(
   "/:spotId/bookings",
-  { validation: "Booking" },
+  {
+    validation: "Booking",
+  },
   async ({ spot, body, user }) => {
     if (spot.ownerId === user.id) {
       throwError(403);
@@ -247,9 +253,28 @@ post(
     });
 
     if (Bookings[0]) {
+      const confilctingBooking = Bookings[0].toJSON();
+      const errors = {};
+      if (
+        startDate <= confilctingBooking.endDate &&
+        startDate >= confilctingBooking.startDate
+      ) {
+        errors.startDate = "Start date conflicts with an existing booking";
+      }
+      if (
+        endDate <= confilctingBooking.endDate &&
+        endDate >= confilctingBooking.startDate
+      ) {
+        errors.endDate = "End date conflicts with an existing booking";
+      }
+      if (!errors.startDate && !errors.endDate) {
+        errors.startDate = "Start date conflicts with an existing booking";
+        errors.endDate = "End date conflicts with an existing booking";
+      }
       throwError(
         403,
-        "Sorry, this spot is already booked for the specified dates"
+        "Sorry, this spot is already booked for the specified dates",
+        errors
       );
     }
 
