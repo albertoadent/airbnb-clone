@@ -16,78 +16,82 @@ const {
   Sequelize,
 } = route();
 
-get("/", { validation: "spotquery" }, async ({ query }) => {
-  let {
-    page = 1,
-    size = 20,
-    minLat,
-    maxLat,
-    minLng,
-    maxLng,
-    minPrice,
-    maxPrice,
-  } = query;
-  page = parseInt(page);
-  size = parseInt(size);
+get(
+  "/",
+  { requireAuth: false, exists: false, validation: "spotquery" },
+  async ({ query }) => {
+    let {
+      page = 1,
+      size = 20,
+      minLat,
+      maxLat,
+      minLng,
+      maxLng,
+      minPrice,
+      maxPrice,
+    } = query;
+    page = parseInt(page);
+    size = parseInt(size);
 
-  const options = { where: {} };
-  options.limit = size > 20 ? 20 : size;
-  options.offset = options.limit * (page - 1);
+    const options = { where: {} };
+    options.limit = size > 20 ? 20 : size;
+    options.offset = options.limit * (page - 1);
 
-  if (minLat) {
-    options.where.lat = { [Sequelize.Op.gte]: minLat };
-  }
-  if (maxLat) {
-    options.where.lat = { [Sequelize.Op.lte]: maxLat };
-  }
+    if (minLat) {
+      options.where.lat = { [Sequelize.Op.gte]: minLat };
+    }
+    if (maxLat) {
+      options.where.lat = { [Sequelize.Op.lte]: maxLat };
+    }
 
-  if (minLat && maxLat) {
-    options.where.lat = {
-      [Sequelize.Op.and]: [
-        { [Sequelize.Op.gte]: minLat },
-        { [Sequelize.Op.lte]: maxLat },
-      ],
-    };
-  }
+    if (minLat && maxLat) {
+      options.where.lat = {
+        [Sequelize.Op.and]: [
+          { [Sequelize.Op.gte]: minLat },
+          { [Sequelize.Op.lte]: maxLat },
+        ],
+      };
+    }
 
-  if (minLng) {
-    options.where.lng = { [Sequelize.Op.gte]: minLng };
-  }
-  if (maxLng) {
-    options.where.lng = { [Sequelize.Op.lte]: maxLng };
-  }
+    if (minLng) {
+      options.where.lng = { [Sequelize.Op.gte]: minLng };
+    }
+    if (maxLng) {
+      options.where.lng = { [Sequelize.Op.lte]: maxLng };
+    }
 
-  if (minLng && maxLng) {
-    options.where.lng = {
-      [Sequelize.Op.and]: [
-        { [Sequelize.Op.gte]: minLng },
-        { [Sequelize.Op.lte]: maxLng },
-      ],
-    };
-  }
+    if (minLng && maxLng) {
+      options.where.lng = {
+        [Sequelize.Op.and]: [
+          { [Sequelize.Op.gte]: minLng },
+          { [Sequelize.Op.lte]: maxLng },
+        ],
+      };
+    }
 
-  if (minPrice) {
-    options.where.price = { [Sequelize.Op.gte]: minPrice };
-  }
-  if (maxPrice) {
-    options.where.price = { [Sequelize.Op.lte]: maxPrice };
-  }
+    if (minPrice) {
+      options.where.price = { [Sequelize.Op.gte]: minPrice };
+    }
+    if (maxPrice) {
+      options.where.price = { [Sequelize.Op.lte]: maxPrice };
+    }
 
-  if (minPrice && maxPrice) {
-    options.where.price = {
-      [Sequelize.Op.and]: [
-        { [Sequelize.Op.gte]: minPrice },
-        { [Sequelize.Op.lte]: maxPrice },
-      ],
-    };
-  }
+    if (minPrice && maxPrice) {
+      options.where.price = {
+        [Sequelize.Op.and]: [
+          { [Sequelize.Op.gte]: minPrice },
+          { [Sequelize.Op.lte]: maxPrice },
+        ],
+      };
+    }
 
-  const Spots = await Spot.findAll({
-    ...options,
-    attributes: { include: ["createdAt", "updatedAt"] },
-  });
-  return { Spots };
-});
+    const Spots = await Spot.findAll({
+      ...options,
+      attributes: { include: ["createdAt", "updatedAt"] },
+    });
+    return { Spots };
+  }
+);
 
 get("/current", { requireAuth: true }, async ({ user }) => {
   const Spots = await user.getSpots({

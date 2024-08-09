@@ -21,8 +21,11 @@ get("/current", { requireAuth: true }, async ({ user }) => {
     attributes: { include: ["createdAt", "updatedAt"] },
     include: [
       { model: User, attributes: ["id", "firstName", "lastName"] },
-      { model: Spot },
-      { model: ReviewImage },
+      { model: Spot, attributes: { include: ["createdAt", "updatedAt"] } },
+      {
+        model: ReviewImage,
+        attributes: { include: ["createdAt", "updatedAt"] },
+      },
     ],
   });
 
