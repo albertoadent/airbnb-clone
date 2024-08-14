@@ -1,6 +1,6 @@
 /* TODO: Add sitewide styles */
 body {
-  background: rgb(50, 101, 150);
+  background: radial-gradient(rgb(86, 151, 207), rgb(50, 101, 150));
 }
 
 .title {
@@ -15,5 +15,9 @@ body {
   margin-left: 120px;
   margin-right: 120px;
   padding: 5px;
-  background: rgba(216, 220, 255, 0.829);
+  background: linear-gradient(
+    to bottom,
+    rgba(240, 248, 255, 0.486),
+    rgb(118, 141, 190)
+  );
 }

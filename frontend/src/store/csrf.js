@@ -33,20 +33,24 @@ export function restoreCSRF() {
 export async function post(url, reqBody = {}) {
   const adjustedUrl = url.includes("api") ? url : "/api" + url;
   const data = await csrfFetch(adjustedUrl, { method: "POST", body: reqBody });
-  return [data.json(),data];
+  const json = await data.json()
+  return [json,data];
 }
 export async function get(url) {
   const adjustedUrl = url.includes("api") ? url : "/api" + url;
   const data = await csrfFetch(adjustedUrl);
-  return [data.json(),data];
+  const json = await data.json()
+  return [json,data];
 }
 export async function put(url, reqBody = {}) {
   const adjustedUrl = url.includes("api") ? url : "/api" + url;
   const data = await csrfFetch(adjustedUrl, { method: "PUT", body: reqBody });
-  return [data.json(),data];
+  const json = await data.json()
+  return [json,data];
 }
 export async function del(url) {
   const adjustedUrl = url.includes("api") ? url : "/api" + url;
   const data = await csrfFetch(adjustedUrl, { method: "DELETE" });
-  return [data.json(),data];
+  const json = await data.json()
+  return [json,data];
 }

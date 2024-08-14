@@ -4,6 +4,7 @@ import ProfileButton from "./ProfileButton.jsx";
 import OpenModalButton from "../OpenModalButton";
 import LoginFormModal from "../LoginFormModal";
 import SignupFormModal from '../SignupFormModal/index.jsx';
+import { FaHome } from "react-icons/fa";
 import "./Navigation.css";
 
 function Navigation({ isLoaded }) {
@@ -35,7 +36,7 @@ function Navigation({ isLoaded }) {
   return (
     <ul className="nav">
       <li className="navButton">
-        <NavLink to="/">Home</NavLink>
+        <NavLink to="/"><FaHome/></NavLink>
       </li>
       {isLoaded && sessionLinks}
     </ul>
