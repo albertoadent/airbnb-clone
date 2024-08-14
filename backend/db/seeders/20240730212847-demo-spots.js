@@ -27,6 +27,42 @@ const spots = [
     description: "A sunny spot in Los Angeles",
     price: 150.0,
   },
+  {
+    ownerId: 3,
+    address: "456 Elm St",
+    city: "Los Angeles",
+    state: "CA",
+    country: "USA",
+    lat: 34.0522,
+    lng: -118.2437,
+    name: "Sunny",
+    description: "A sunny spot in Los Angeles",
+    price: 150.0,
+  },
+  {
+    ownerId: 4,
+    address: "456 Elm St",
+    city: "Los Angeles",
+    state: "CA",
+    country: "USA",
+    lat: 34.0522,
+    lng: -118.2437,
+    name: "Spot",
+    description: "A sunny spot in Los Angeles",
+    price: 150.0,
+  },
+  {
+    ownerId: 5,
+    address: "456 Elm St",
+    city: "Los Angeles",
+    state: "CA",
+    country: "USA",
+    lat: 34.0522,
+    lng: -118.2437,
+    name: "Los",
+    description: "A sunny spot in Los Angeles",
+    price: 150.0,
+  },
 ];
 
 /** @type {import('sequelize-cli').Migration} */
@@ -40,7 +76,13 @@ module.exports = {
       { schema: process.env.SCHEMA, tableName: "Spots" },
       {
         name: {
-          [Sequelize.Op.in]: ["Sunny Spot", "Beautiful Spot"],
+          [Sequelize.Op.in]: [
+            "Sunny Spot",
+            "Beautiful Spot",
+            "Sunny",
+            "Spot",
+            "Los",
+          ],
         },
       },
       {}
