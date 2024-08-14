@@ -30,17 +30,32 @@ export default function SpotDisplay({ spot }) {
           ${spot.price}
           <span className="price-label">/night</span>
         </div>
-        <div
-          style={{
-            gridRow: "2",
-            gridColumn: "2",
-            textAlign: "center",
-            color: "rgb(55, 55, 107)",
-            fontWeight: "bold",
-          }}
-        >
-          <FaStar/>{(spot.avgRating && convertDecimal(spot.avgRating)) || "New"}
-        </div>
+        {(spot.avgRating && (
+          <div
+            style={{
+              gridRow: "2",
+              gridColumn: "2",
+              textAlign: "center",
+              color: "rgb(55, 55, 107)",
+              fontWeight: "bold",
+            }}
+          >
+            <FaStar />
+            {convertDecimal(spot.avgRating)}
+          </div>
+        )) || (
+          <div
+            style={{
+              gridRow: "2",
+              gridColumn: "2",
+              textAlign: "center",
+              color: "rgb(55, 55, 107)",
+              fontWeight: "bold",
+            }}
+          >
+            New
+          </div>
+        )}
       </div>
     </Link>
   );
