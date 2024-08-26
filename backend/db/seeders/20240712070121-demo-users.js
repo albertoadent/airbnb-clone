@@ -11,7 +11,7 @@ module.exports = {
         {
           email: "demo@user.io",
           firstName: "Demo",
-          lastName: "Lition",
+          lastName: "User",
           username: "Demo-lition",
           hashedPassword: bcrypt.hashSync("password"),
         },
@@ -54,7 +54,7 @@ module.exports = {
       {
         username: {
           [Sequelize.Op.in]: [
-            "Demo-Lition",
+            "Demo-lition",
             "FakeUser1",
             "FakeUser4",
             "FakeUser5",

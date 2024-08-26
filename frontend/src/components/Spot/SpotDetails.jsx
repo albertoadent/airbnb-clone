@@ -6,11 +6,11 @@ import * as spotActions from "../../store/spots";
 export default function SpotDetails() {
   const { spotId } = useParams();
   const dispatch = useDispatch();
-  const spot = useSelector(({ spots }) => spots.spotDetails[spotId]);
+  const spot = useSelector((state) => state.spots[spotId]);
 
   useEffect(() => {
     dispatch(spotActions.getSpotDetails(spotId));
-  }, [dispatch,spotId]);
+  }, [dispatch, spotId]);
 
   if (!spot) {
     return <h1>Spot not found</h1>;
