@@ -1,6 +1,4 @@
-/* .display-container {
-  justify-content: center;
-} */
+
 .spot_display_wrapper {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr 1fr;
