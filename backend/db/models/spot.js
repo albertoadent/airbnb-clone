@@ -14,7 +14,7 @@ module.exports = (sequelize, DataTypes) => {
           preview: true,
         },
       });
-      if(!previewImage) return null;
+      if (!previewImage) return null;
       return previewImage.toJSON().url;
     }
 
@@ -88,7 +88,7 @@ module.exports = (sequelize, DataTypes) => {
       avgRating: {
         type: DataTypes.VIRTUAL,
         get() {
-          return this.getDataValue("avgRating");
+          return Number(this.getDataValue("avgRating")?.toFixed(2));
         },
       },
       createdAt: {
@@ -114,9 +114,44 @@ module.exports = (sequelize, DataTypes) => {
         attributes: { exclude: ["createdAt", "updatedAt"] },
       },
       hooks: {
+        afterCreate: async (result, options) => {
+          const { previewImage, id } = result;
+
+          const { SpotImage } = sequelize.models;
+
+          if (previewImage) {
+            await SpotImage.create({
+              spotId: id,
+              url: previewImage,
+              preview: true,
+            });
+          }
+        },
+        afterUpdate: async (result, options) => {
+          const { previewImage, id } = result;
+          const { SpotImage } = sequelize.models;
+          const prev = await SpotImage.findOne({
+            where: {
+              spotId: id,
+              preview: true,
+            },
+          });
+          if (prev) {
+            await prev.update({
+              spotId: id,
+              url: previewImage,
+              preview: true,
+            });
+          } else {
+            await SpotImage.create({
+              spotId: id,
+              url: previewImage,
+              preview: true,
+            });
+          }
+        },
         afterFind: async (result, options) => {
           const spots = Array.isArray(result) ? result : [result];
-
           for (const spot of spots) {
             // Check if spot is not null (in case of findOne returning null)
             if (spot) {
@@ -130,11 +165,14 @@ module.exports = (sequelize, DataTypes) => {
 
               const numReviews = reviews?.length || 1;
               const average =
-                reviews?.reduce((tot, review) => tot + review.stars, 0) ||
-                0 / numReviews;
+                (reviews?.reduce((tot, review) => tot + review.stars, 0) || 0) /
+                numReviews;
 
               spot.setDataValue("previewImage", image ? image.url : null);
-              spot.setDataValue("avgRating", average ? average : null);
+              spot.setDataValue(
+                "avgRating",
+                average?.toFixed(2) ? average : null
+              );
             }
           }
         },

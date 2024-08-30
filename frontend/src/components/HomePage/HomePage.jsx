@@ -13,15 +13,11 @@ function HomePage() {
   }, [dispatch]);
 
   const spots = useSelector((state) => state.spots);
-  console.log(spots);
   return (
-    <div>
-      <h1 className="title">
-        <FaHome />
-      </h1>
+    <div className="display-container">
       <div className="spot_display_wrapper" style={{}}>
         {Object.values(spots).map((spot) => (
-          <SpotDisplay key={spot.id} spot={spot}></SpotDisplay>
+          <SpotDisplay key={spot?.id} spot={spot}></SpotDisplay>
         ))}
       </div>
     </div>

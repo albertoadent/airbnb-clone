@@ -1,0 +1,27 @@
+.write-review {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  height: 100%;
+  padding: 10px;
+  border: solid black;
+  border-radius: 10px;
+  background: white;
+}
+
+.write-review .stars {
+  display: flex;
+  justify-content: center;
+}
+
+.write-review textarea {
+  display: flex;
+  margin: 10px;
+  width: 200px;
+  height: 100px;
+}
+
+.write-review button {
+  width: 200px;
+  margin: 10px;
+}

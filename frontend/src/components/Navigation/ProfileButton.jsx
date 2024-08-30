@@ -1,20 +1,21 @@
 import { useState, useEffect, useRef } from "react";
 import { useDispatch } from "react-redux";
-import { FaUserCircle } from "react-icons/fa";
+import { FaUserCircle, FaBars } from "react-icons/fa";
 import * as sessionActions from "../../store/session";
 import OpenModalButton from "../OpenModalButton";
 import SignupFormModal from "../SignupFormModal";
 import LoginFormModal from "../LoginFormModal";
+import { Link } from "react-router-dom";
 
 function ProfileButton({ user }) {
   const dispatch = useDispatch();
   const [dropDownActive, setDropdown] = useState(false);
   const ulRef = useRef();
 
-  const logout = (e) => {
+  function logout(e) {
     e.preventDefault();
     dispatch(sessionActions.logout());
-  };
+  }
 
   const toggleDropdown = (e) => {
     e.stopPropagation();
@@ -38,8 +39,8 @@ function ProfileButton({ user }) {
 
   return (
     <>
-      <button onClick={toggleDropdown}>
-        <FaUserCircle />
+      <button style={{ whiteSpace: "pre-wrap" }} onClick={toggleDropdown}>
+        <FaBars /> <FaUserCircle />
       </button>
       {user ? (
         <ul
@@ -51,11 +52,11 @@ function ProfileButton({ user }) {
             zIndex: "1",
           }}
         >
-          <li>{user.username}</li>
-          <li>
-            {user.firstName} {user.lastName}
-          </li>
+          <li>Hello {user.firstName}</li>
           <li>{user.email}</li>
+          <li>
+            <Link to="/my-spots">Manage Spots</Link>
+          </li>
           <li>
             <button className="navButton" onClick={logout}>
               Log Out

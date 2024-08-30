@@ -1,0 +1,62 @@
+.actions {
+  width: 60%;
+  margin-left: 10px;
+}
+.actions *:hover {
+  cursor: pointer;
+  background: darkgrey;
+  color: black;
+}
+
+.actions * {
+  width: 100%;
+  padding: 2px;
+  background: gray;
+  color: white;
+  border: solid black;
+  border-radius: 10px;
+  text-decoration: none;
+  text-align: center;
+  margin-right: 10px;
+}
+.delete-spot {
+  background: white;
+  display: flex;
+  flex-direction: column;
+  padding: 10px;
+  align-items: center;
+  width: 300px;
+  border: solid black;
+  border-radius: 10px;
+}
+
+.delete-spot h1 {
+  font-size: xx-large;
+  margin: 5px;
+}
+
+.delete-spot h2 {
+  font-size: medium;
+  margin: 5px;
+}
+
+.delete-spot button {
+  margin: 5px;
+  width: 100%;
+  box-shadow: black 2px 2px 3px;
+  padding: 10px;
+  color: white;
+  transition: 200ms;
+}
+.delete-spot button:hover {
+  background-color: white;
+  color: black;
+  transition: 200ms;
+}
+
+.delete-spot .delete {
+  background-color: red;
+}
+.delete-spot .keep {
+  background-color: gray;
+}

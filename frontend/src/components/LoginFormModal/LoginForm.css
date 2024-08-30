@@ -1,5 +1,9 @@
 .login{
-  background: rgb(55, 55, 107);
+  background: linear-gradient(
+    to bottom,
+    rgba(240, 248, 255, 0.486),
+    rgb(118, 141, 190)
+  );
   border: solid black;
   border-radius: 10px;
   box-shadow: black 0px 0px 0px 10px;
@@ -42,7 +46,7 @@
     align-content: center;
   margin: 10px;
   text-align: center;
-  color: white;
+  color: black;
   font-size: 20px;
   font-weight: 500;
 }

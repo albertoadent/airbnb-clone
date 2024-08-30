@@ -94,12 +94,20 @@ get(
 );
 
 get("/current", { requireAuth: true }, async ({ user }) => {
-  const Spots = await user.getSpots({
+  const other = await Spot.findAll({
+    where: {
+      ownerId: user.id,
+    },
     attributes: {
       include: ["createdAt", "updatedAt"],
     },
   });
-  return { Spots };
+  // const Spots = await user.getSpots({
+  //   attributes: {
+  //     include: ["createdAt", "updatedAt"],
+  //   },
+  // });
+  return { Spots: other };
 });
 
 get(
@@ -128,8 +136,29 @@ get(
   }
 );
 
-post("/", { requireAuth: true, validation: "Spot" }, async ({ user, body }) =>
-  user.createSpot(body)
+post(
+  "/",
+  { requireAuth: true, exists: false, validation: "Spot" },
+  async ({ user, body }) => {
+    const spot = await Spot.create({ ...body });
+    const { images = [] } = body;
+    const { id } = spot.toJSON();
+
+    // console.log(images, id);
+
+    if (images?.length > 0) {
+      const promises = images.map(async (image) => {
+        return SpotImage.create({
+          spotId: id,
+          url: image,
+          preview: false,
+        });
+      });
+      await Promise.all(promises);
+    }
+
+    return spot;
+  }
 );
 
 post("/:spotId/images", { authorization: true }, async ({ spot, body }) => {
@@ -151,6 +180,39 @@ put(
     validation: "Spot",
   },
   async ({ spot, body }) => {
+    const { images } = body;
+
+    const existingImages = await spot.getSpotImages({
+      where: {
+        preview: false,
+      },
+    });
+    const discardedUrls = {};
+
+    existingImages.forEach((image) => {
+      const { url, id } = image.toJSON();
+      const existsIndex = images.indexOf(url);
+      if (existsIndex + 1) {
+        discardedUrls[url] = id;
+      } else {
+        images[existsIndex] = undefined;
+      }
+    });
+
+    const promises = images
+      .filter((e) => !!e)
+      .map(async (image, index) => {
+        const toChangeArr = Object.values(discardedUrls);
+        if (toChangeArr[index]) {
+          const image = await SpotImage.findByPk(toChangeArr[index]);
+          await image.update({ ...image.toJSON(), url: image });
+        } else {
+          await spot.createSpotImage({ url: image, preview: false });
+        }
+      });
+
+    await Promise.all(promises);
+
     return spot.update(body);
   }
 );

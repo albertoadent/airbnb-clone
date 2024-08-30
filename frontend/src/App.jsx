@@ -8,10 +8,12 @@ import {
 } from "react-router-dom";
 import Navigation from "./components/Navigation";
 import SpotDetails from "./components/Spot/SpotDetails";
-
+import MySpots from "./components/Spot/MySpots/MySpots";
 import * as sessionActions from "./store/session";
 import HomePage from "./components/HomePage";
 import FeatureComingSoon from "./components/FeatureComingSoon";
+import CreateSpot from "./components/Spot/CreateSpot/CreateSpot";
+import UpdateSpot from "./components/Spot/UpdateSpot/UpdateSpot";
 
 function Layout() {
   const dispatch = useDispatch();
@@ -44,8 +46,16 @@ const router = createBrowserRouter([
         element: <FeatureComingSoon />,
       },
       {
+        path: "create-spot",
+        element: <CreateSpot />,
+      },
+      {
         path: "spots",
         element: <Navigate to="/"></Navigate>,
+      },
+      {
+        path: "my-spots",
+        element: <MySpots />,
       },
       {
         path: "spots/:spotId",
@@ -57,6 +67,10 @@ const router = createBrowserRouter([
           {
             path: "reserve",
             element: <FeatureComingSoon />,
+          },
+          {
+            path: "edit",
+            element: <UpdateSpot />,
           },
         ],
       },

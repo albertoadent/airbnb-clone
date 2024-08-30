@@ -12,12 +12,32 @@ body {
   flex-wrap: wrap;
   justify-content: center;
   align-content: center;
-  margin-left: 120px;
-  margin-right: 120px;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 10px;
+  margin-bottom: 10px;
   padding: 5px;
   background: linear-gradient(
     to bottom,
     rgba(240, 248, 255, 0.486),
     rgb(118, 141, 190)
   );
+}
+
+* {
+  padding: 0px;
+  margin: 0px;
+}
+
+button:disabled {
+  background-color: darkgray;
+  border: darkgray;
+  box-shadow: none;
+  color: gray;
+}
+button:hover:disabled {
+  background-color: darkgray;
+  box-shadow: none;
+  color: gray;
+  cursor: default;
 }

@@ -1,6 +1,10 @@
 .signup {
   display: flex;
-  background: rgb(55, 55, 107);
+  background: linear-gradient(
+    to bottom,
+    rgba(240, 248, 255, 0.486),
+    rgb(118, 141, 190)
+  );
   flex-direction: column;
   align-items: center;
   gap: 10px;
@@ -35,7 +39,7 @@
 .signup form label {
   width: 200px;
   text-align: center;
-  color: white;
+  color: black;
   font-size: 20px;
   font-weight: 500;
 }

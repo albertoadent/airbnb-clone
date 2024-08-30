@@ -1,0 +1,41 @@
+.delete-review {
+  background: white;
+  display: flex;
+  flex-direction: column;
+  padding: 10px;
+  align-items: center;
+  width: 300px;
+  border: solid black;
+  border-radius: 10px;
+}
+
+.delete-review h1 {
+  font-size: xx-large;
+  margin: 5px;
+}
+
+.delete-review h2 {
+  font-size: medium;
+  margin: 5px;
+}
+
+.delete-review button {
+  margin: 5px;
+  width: 100%;
+  box-shadow: black 2px 2px 3px;
+  padding: 10px;
+  color: white;
+  transition: 200ms;
+}
+.delete-review button:hover {
+  background-color: white;
+  color: black;
+  transition: 200ms;
+}
+
+.delete-review .delete {
+  background-color: red;
+}
+.delete-review .keep {
+  background-color: gray;
+}

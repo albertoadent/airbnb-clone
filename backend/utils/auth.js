@@ -77,9 +77,10 @@ const exists = (options) => async (req, res, next) => {
     bodyKeys.forEach((keyId) => (req.params[keyId] = req.body[keyId]));
     const promises = Object.keys(req.params).map(async (modelId) => {
       let modelName = modelId.replace("Id", "");
-      // if (modelName === "owner") modelName = "user";
+      if (modelName === "owner") modelName = "user";
       const capitalizedModelName =
         modelName.charAt(0).toUpperCase() + modelName.slice(1);
+      console.log(capitalizedModelName);
       const Model = require(`../db/models`)[capitalizedModelName];
       // console.log(Model);
       if (req.params[modelId] === null) {
@@ -110,7 +111,7 @@ const exists = (options) => async (req, res, next) => {
     await Promise.all(promises);
     next();
   } catch (err) {
-    console.log(err)
+    console.log(err);
     next(err);
   }
 };
@@ -159,15 +160,15 @@ const authorizeUser = (options) => async (req, res, next) => {
 
         //if it doesn't coincide with the options object then throw 403
         if (shouldBeUsers !== modelIsUsers) {
-          if(process.env.NODE_ENV === "development"){
-            console.log("should be users is not equvalent to it being users")
+          if (process.env.NODE_ENV === "development") {
+            console.log("should be users is not equvalent to it being users");
           }
           throw403();
         }
       } else {
         if (!modelIsUsers) {
-          if(process.env.NODE_ENV === "development"){
-            console.log("Model is not users")
+          if (process.env.NODE_ENV === "development") {
+            console.log("Model is not users");
           }
           throw403();
         }

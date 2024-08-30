@@ -3,59 +3,59 @@ import "./SpotDisplay.css";
 import { FaStar } from "react-icons/fa";
 
 export default function SpotDisplay({ spot }) {
-  const convertDecimal = (num) => {
-    const number = Number(num);
-    const [beforeDecimal, afterDecimal = "00"] = number.toString().split(".");
-    // console.log("beforeDecimal", beforeDecimal, "afterDecimal", afterDecimal);
-    const result = beforeDecimal + "." + afterDecimal.padEnd(2, 0);
-    // console.log(result);
-    return result;
-  };
-
   return (
-    <Link className="spot_display" to={`/spots/${spot.id}`} title={spot.name}>
-      <img className="spot_image" src={spot.previewImage} />
+    <Link className="spot_display" to={`/spots/${spot?.id}`} title={spot?.name}>
+      <img
+        className="spot_image"
+        src={spot?.previewImage}
+        alt="https://atlas-content-cdn.pixelsquid.com/stock-images/simple-house-NxE5a78-600.jpg"
+      />
       <div className="spot_info">
         <div style={{ gridColumnStart: "1", textAlign: "left" }}>
-          {spot.city}
+          {spot?.city}, {spot?.state}
         </div>
         <div
-          style={{ gridColumnStart: "1", gridRowStart: "2", textAlign: "left" }}
+          style={{
+            gridColumnStart: "1",
+            gridRowStart: "2",
+            textAlign: "left",
+            fontWeight: "600",
+            whiteSpace: "pre-wrap",
+          }}
         >
-          {spot.state}
+          ${spot?.price + " "}
+          <span className="price-label">night</span>
         </div>
         <div
           style={{ gridColumn: "2", textAlign: "center", fontWeight: "bold" }}
         >
-          ${spot.price}
-          <span className="price-label">/night</span>
+          {(spot?.avgRating && (
+            <div
+              style={{
+                gridRow: "2",
+                gridColumn: "2",
+                textAlign: "right",
+                color: "rgb(55, 55, 107)",
+                fontWeight: "bold",
+              }}
+            >
+              <FaStar />
+              {spot.avgRating}
+            </div>
+          )) || (
+            <div
+              style={{
+                gridRow: "2",
+                gridColumn: "2",
+                textAlign: "right",
+                color: "rgb(55, 55, 107)",
+                fontWeight: "bold",
+              }}
+            >
+              New
+            </div>
+          )}
         </div>
-        {(spot.avgRating && (
-          <div
-            style={{
-              gridRow: "2",
-              gridColumn: "2",
-              textAlign: "center",
-              color: "rgb(55, 55, 107)",
-              fontWeight: "bold",
-            }}
-          >
-            <FaStar />
-            {convertDecimal(spot.avgRating)}
-          </div>
-        )) || (
-          <div
-            style={{
-              gridRow: "2",
-              gridColumn: "2",
-              textAlign: "center",
-              color: "rgb(55, 55, 107)",
-              fontWeight: "bold",
-            }}
-          >
-            New
-          </div>
-        )}
       </div>
     </Link>
   );

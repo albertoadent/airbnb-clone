@@ -1,8 +1,12 @@
 .nav {
   display: flex;
-  justify-content: right;
+  width: auto;
+  margin: auto;
+  padding: 10px;
+  justify-content: space-between;
   align-content: center;
   align-items: center;
+  border-bottom: solid rgba(44, 44, 44, 0.322);
 }
 
 .nav li {
@@ -41,7 +45,8 @@
 }
 
 .navButton > a:hover,
-.navButton > button:hover {
+.navButton > button:hover,
+.profileButton .navButton {
   text-decoration: none;
   background: rgb(87, 87, 87);
   border: none;

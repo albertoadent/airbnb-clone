@@ -1,7 +1,7 @@
 import { NavLink } from "react-router-dom";
 import { useSelector } from "react-redux";
 import ProfileButton from "./ProfileButton.jsx";
-import { FaHome } from "react-icons/fa";
+import starIcon from "/star.ico";
 import "./Navigation.css";
 
 function Navigation() {
@@ -9,14 +9,19 @@ function Navigation() {
 
   return (
     <ul className="nav">
-      <li className="navButton">
-        <NavLink to="/">
-          <FaHome />
-        </NavLink>
-      </li>
-      <li className="profileButton">
-        <ProfileButton user={sessionUser} />
-      </li>
+      <NavLink to="/">
+        <img src={starIcon} alt="" />
+      </NavLink>
+      <div style={{ display: "flex" }}>
+        {sessionUser && (
+          <li className="navButton" style={{ fontSize: "small" }}>
+            <NavLink to="/create-spot">Create a New Spot</NavLink>
+          </li>
+        )}
+        <li className="profileButton">
+          <ProfileButton user={sessionUser} />
+        </li>
+      </div>
     </ul>
   );
 }
