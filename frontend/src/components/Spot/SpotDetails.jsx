@@ -78,6 +78,27 @@ export default function SpotDetails() {
       </div>
     );
   }
+
+  let secondaryImages = spot?.SpotImages?.flatMap(({ preview, url }, i) =>
+    !preview ? (
+      <div key={i} className="image-wrapper">
+        <img
+          key={i}
+          className="spot_image"
+          src={url}
+          alt={`Spot Image ${i}`}
+          style={{ width: "100%", borderRadius: "5px" }}
+        />
+      </div>
+    ) : (
+      []
+    )
+  );
+
+  if (Array.isArray(secondaryImages) && !secondaryImages[0]) {
+    secondaryImages = undefined;
+  }
+
   useEffect(() => {
     console.log("refreshed");
     dispatch(spotActions.getSpotDetails(spotId));
@@ -106,23 +127,8 @@ export default function SpotDetails() {
         className="secondary-images"
         style={styleGrid({ secondHalf: true }, 3)}
       >
-        {spot.SpotImages?.length > 1 ? (
-          spot.SpotImages.slice(1, 5).map((image, index) => (
-            <div key={index} className="image-wrapper">
-              <img
-                key={index}
-                className="spot_image"
-                src={image.url}
-                alt={`Spot Image ${index}`}
-                style={{ width: "100%", borderRadius: "5px" }}
-              />
-            </div>
-          ))
-        ) : (
-          <p>No additional images available</p>
-        )}
+        {secondaryImages || <p>No additional images available</p>}
       </div>
-
       <div className="spot-info" style={styleGrid({ firstQuarters: true }, 4)}>
         {user && user.id === spot.ownerId ? (
           <div style={{ display: "flex", justifyContent: "left" }}>

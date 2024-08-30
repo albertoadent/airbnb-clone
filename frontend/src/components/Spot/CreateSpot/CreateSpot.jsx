@@ -30,7 +30,7 @@ export default function CreateSpot({ spot: storedSpot = {} }) {
     e.preventDefault();
 
     const data = { ...spot, lat: Number(spot.lat), lng: Number(spot.lng) };
-
+    console.log(data);
     dispatch(
       storedSpot.name
         ? spotActions.updateSpot({ ...data, id: storedSpot.id })

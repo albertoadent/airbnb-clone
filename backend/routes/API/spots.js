@@ -205,7 +205,7 @@ put(
         const toChangeArr = Object.values(discardedUrls);
         if (toChangeArr[index]) {
           const image = await SpotImage.findByPk(toChangeArr[index]);
-          await image.update({ ...image.toJSON(), url: image });
+          await image.update({ ...image.toJSON(), url: image.toJSON().url });
         } else {
           await spot.createSpotImage({ url: image, preview: false });
         }
