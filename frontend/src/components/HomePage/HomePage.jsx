@@ -1,7 +1,6 @@
 import { useDispatch, useSelector } from "react-redux";
 import SpotDisplay from "./SpotDisplay/SpotDisplay";
 import { useEffect } from "react";
-import { FaHome } from "react-icons/fa";
 import * as spotActions from "../../store/spots";
 import "./HomePage.css";
 
