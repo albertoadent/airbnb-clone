@@ -36,9 +36,24 @@
   max-width: 1000px;
   margin: auto;
 }
-/* .spot-details * {
-  border: solid red;
-} */
+
+.spot-details button{
+  padding: 10px;
+  background: linear-gradient(
+    to bottom,
+    rgba(240, 248, 255, 0.486),
+    rgb(0, 128, 90),
+    rgb(118, 141, 190)
+  );
+  border-radius: 10px;
+  transition: 500ms;
+}
+
+.spot-details button:hover{
+  background: rgb(0, 128, 90);
+  cursor: pointer;
+  transition: 500ms;
+}
 
 .spot-price {
   text-align: center;

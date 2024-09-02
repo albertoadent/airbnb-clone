@@ -7,8 +7,11 @@ export default function SpotDisplay({ spot }) {
     <Link className="spot_display" to={`/spots/${spot?.id}`} title={spot?.name}>
       <img
         className="spot_image"
-        src={spot?.previewImage}
-        alt="https://atlas-content-cdn.pixelsquid.com/stock-images/simple-house-NxE5a78-600.jpg"
+        src={
+          spot?.previewImage ||
+          "https://atlas-content-cdn.pixelsquid.com/stock-images/simple-house-NxE5a78-600.jpg"
+        }
+        alt="previewImage"
       />
       <div className="spot_info">
         <div style={{ gridColumnStart: "1", textAlign: "left" }}>
@@ -29,32 +32,18 @@ export default function SpotDisplay({ spot }) {
         <div
           style={{ gridColumn: "2", textAlign: "center", fontWeight: "bold" }}
         >
-          {(spot?.avgRating && (
-            <div
-              style={{
-                gridRow: "2",
-                gridColumn: "2",
-                textAlign: "right",
-                color: "rgb(55, 55, 107)",
-                fontWeight: "bold",
-              }}
-            >
-              <FaStar />
-              {spot.avgRating}
-            </div>
-          )) || (
-            <div
-              style={{
-                gridRow: "2",
-                gridColumn: "2",
-                textAlign: "right",
-                color: "rgb(55, 55, 107)",
-                fontWeight: "bold",
-              }}
-            >
-              New
-            </div>
-          )}
+          <div
+            style={{
+              gridRow: "2",
+              gridColumn: "2",
+              textAlign: "right",
+              color: "rgb(55, 55, 107)",
+              fontWeight: "bold",
+            }}
+          >
+            <FaStar />
+            {spot?.avgRating ? spot.avgRating.toFixed(1) : "New"}
+          </div>
         </div>
       </div>
     </Link>

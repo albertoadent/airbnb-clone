@@ -1,10 +1,12 @@
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import * as spotActions from "../../../store/spots";
 import "./CreateSpot.css";
 
 export default function CreateSpot({ spot: storedSpot = {} }) {
   const user = useSelector((state) => state.session.user);
+  const navigate = useNavigate();
   const [spot, setSpot] = useState({
     ownerId: user?.id,
     address: storedSpot.address || "",
@@ -29,13 +31,12 @@ export default function CreateSpot({ spot: storedSpot = {} }) {
   async function handleSubmit(e) {
     e.preventDefault();
 
-    const data = { ...spot, lat: Number(spot.lat), lng: Number(spot.lng) };
-    console.log(data);
     dispatch(
       storedSpot.name
-        ? spotActions.updateSpot({ ...data, id: storedSpot.id })
-        : spotActions.createSpot(data)
+        ? spotActions.updateSpot({ ...spot, id: storedSpot.id })
+        : spotActions.createSpot(spot)
     )
+      .then((spot) => navigate(`/spots/${storedSpot.id || spot.id}`))
       .catch((err) => err.json())
       .then(({ errors }) => setErrors({ ...errors }));
   }
@@ -45,6 +46,9 @@ export default function CreateSpot({ spot: storedSpot = {} }) {
     setSpot((prevSpot) => {
       if (fieldName === "images") {
         return { ...prevSpot, [fieldName]: [...prevSpot[fieldName], value] };
+      }
+      if (fieldName === "lat" || fieldName === "lng") {
+        return { ...prevSpot, [fieldName]: Number(value) };
       }
       return { ...prevSpot, [fieldName]: value };
     });
@@ -313,7 +317,7 @@ export default function CreateSpot({ spot: storedSpot = {} }) {
           </div>
         ))}
 
-        <button type="submit">SUBMIT</button>
+        <button type="submit">{!storedSpot.id ?"Create Spot":"Update Your spot"}</button>
       </form>
     </div>
   );

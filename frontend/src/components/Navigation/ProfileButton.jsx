@@ -5,16 +5,17 @@ import * as sessionActions from "../../store/session";
 import OpenModalButton from "../OpenModalButton";
 import SignupFormModal from "../SignupFormModal";
 import LoginFormModal from "../LoginFormModal";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 function ProfileButton({ user }) {
   const dispatch = useDispatch();
   const [dropDownActive, setDropdown] = useState(false);
   const ulRef = useRef();
+  const nav = useNavigate();
 
   function logout(e) {
     e.preventDefault();
-    dispatch(sessionActions.logout());
+    dispatch(sessionActions.logout()).then(nav("/"));
   }
 
   const toggleDropdown = (e) => {

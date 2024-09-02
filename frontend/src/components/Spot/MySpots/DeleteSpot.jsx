@@ -6,7 +6,8 @@ export default function DeleteSpot({ spotId }) {
   const { closeModal } = useModal();
   const dispatch = useDispatch();
   function handleDelete() {
-    dispatch(spotActions.deleteSpot(spotId)).then(closeModal);
+    dispatch(spotActions.deleteSpot(spotId))
+    closeModal();
   }
   return (
     <div className="delete-spot">

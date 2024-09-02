@@ -44,70 +44,79 @@ function SignupFormModal() {
 
   return (
     <div className="signup">
-      <h1>Sign Up</h1>
       <form onSubmit={handleSubmit}>
-        <label>
-          First Name
-          <input
-            type="text"
-            value={firstName}
-            onChange={(e) => setFirstName(e.target.value)}
-            required
-          />
-        </label>
+        <h1>Sign Up</h1>
         {errors.firstName && <p>{errors.firstName}</p>}
-        <label>
-          Last Name
-          <input
-            type="text"
-            value={lastName}
-            onChange={(e) => setLastName(e.target.value)}
-            required
-          />
-        </label>
         {errors.lastName && <p>{errors.lastName}</p>}
-        <label>
-          Email
-          <input
-            type="text"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-          />
-        </label>
         {errors.email && <p>{errors.email}</p>}
-        <label>
-          Username
-          <input
-            type="text"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-            required
-          />
-        </label>
         {errors.username && <p>{errors.username}</p>}
-
-        <label>
-          Password
-          <input
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-          />
-        </label>
         {errors.password && <p>{errors.password}</p>}
-        <label>
-          Confirm Password
-          <input
-            type="password"
-            value={confirmPassword}
-            onChange={(e) => setConfirmPassword(e.target.value)}
-            required
-          />
-        </label>
         {errors.confirmPassword && <p>{errors.confirmPassword}</p>}
-        <button type="submit">Sign Up</button>
+        <input
+          type="text"
+          value={firstName}
+          placeholder="First Name"
+          onChange={(e) => setFirstName(e.target.value)}
+          required
+        />
+
+        <input
+          type="text"
+          value={lastName}
+          placeholder="Last Name"
+          onChange={(e) => setLastName(e.target.value)}
+          required
+        />
+
+        <input
+          type="text"
+          value={email}
+          placeholder="Email"
+          onChange={(e) => setEmail(e.target.value)}
+          required
+        />
+
+        <input
+          type="text"
+          value={username}
+          placeholder="Username"
+          onChange={(e) => setUsername(e.target.value)}
+          required
+        />
+
+        <input
+          type="password"
+          value={password}
+          placeholder="Password"
+          onChange={(e) => setPassword(e.target.value)}
+          required
+        />
+
+        <input
+          type="password"
+          value={confirmPassword}
+          placeholder="Confirm Password"
+          onChange={(e) => setConfirmPassword(e.target.value)}
+          required
+        />
+
+        <button
+          type="submit"
+          disabled={
+            !(
+              firstName &&
+              lastName &&
+              email &&
+              username &&
+              password &&
+              confirmPassword
+            ) ||
+            username?.length < 4 ||
+            password?.length < 6
+          }
+        >
+          Sign Up
+        </button>
       </form>
     </div>
   );

@@ -7,7 +7,8 @@ export default function DeleteReview({ reviewId }) {
   const { closeModal } = useModal();
   const dispatch = useDispatch();
   function handleDelete() {
-    dispatch(reviewActions.deleteReview(reviewId)).then(closeModal);
+    dispatch(reviewActions.deleteReview(reviewId));
+    closeModal();
   }
   return (
     <div className="delete-review" onSubmit={handleDelete}>

@@ -28,6 +28,9 @@ function LoginFormModal() {
     <>
       <div className="login">
         <h1>Log In</h1>
+        {errors.message && (
+          <p style={{ color: "red" }}>The provided credentials were invalid.</p>
+        )}
         <form
           onSubmit={handleSubmit}
           style={{ display: "flex", flexDirection: "column" }}
@@ -52,14 +55,15 @@ function LoginFormModal() {
               required
             />
           </label>
-          {errors.message && <p>The provided credentials were invalid</p>}
           <button
+            className="login-button"
             type="submit"
             disabled={credential.length < 4 || password.length < 6}
           >
             Log In
           </button>
           <button
+            className="demo"
             onClick={(e) => {
               credential = "Demo-lition";
               password = "password";

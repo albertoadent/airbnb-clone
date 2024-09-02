@@ -6,7 +6,8 @@
   padding: 10px;
   border: solid black;
   border-radius: 10px;
-  background: white;
+  background: rgba(8, 138, 77, 0.637);
+  color: rgb(0, 174, 255);
 }
 
 .write-review .stars {
@@ -19,9 +20,34 @@
   margin: 10px;
   width: 200px;
   height: 100px;
+  background: rgba(255, 255, 255, 0.712);
+  color: rgb(0, 174, 255);
 }
 
 .write-review button {
   width: 200px;
   margin: 10px;
+  height: 30px;
+  color: rgb(0, 174, 255);
+  box-shadow: rgb(0, 174, 255) 0px 0px 5px;
+  background: rgba(255, 255, 255, 0.61);
+  border: none;
+  transition: 500ms;
+}
+
+.write-review button:hover {
+  background: white;
+  box-shadow: rgb(0, 174, 255) 0px 0px 10px;
+  transition: 500ms;
+}
+
+.write-review button:disabled {
+  background: none;
+  color: gray;
+  border: 1px solid rgb(0, 174, 255);
+}
+.write-review button:disabled:hover {
+  background: none;
+  color: gray;
+  border: 2px solid rgb(0, 174, 255);
 }

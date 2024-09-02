@@ -4,7 +4,7 @@ const UPDATE_REVIEW = "UPDATE_REVIEW";
 const ADD_REVIEW = "ADD_REVIEW";
 const DELETE_REVIEW = "DELETE_REVIEW";
 
-const updateRev = (REVIEW) => {
+export const updateRev = (REVIEW) => {
   return {
     type: UPDATE_REVIEW,
     payload: REVIEW,
@@ -24,8 +24,13 @@ const deleteRev = (id) => {
 };
 
 export const createReview = (Review) => async (dispatch) => {
-  const [data, response] = await post("/reviews", JSON.stringify(Review));
-  dispatch(addRev(data.user));
+  const [data, response] = await post(
+    "/spots/" + Review.spotId + "/reviews",
+    JSON.stringify(Review)
+  );
+  if (!data.errors) {
+    dispatch(addRev(data));
+  }
   return response;
 };
 export const updateReview =
@@ -35,7 +40,9 @@ export const updateReview =
       "/reviews/" + id,
       JSON.stringify(Review)
     );
-    dispatch(updateRev({ ...data, Review }));
+    if (!data.errors) {
+      dispatch(updateRev({ ...data, Review }));
+    }
     return response;
   };
 export const getReviewDetails = (id) => async (dispatch) => {

@@ -13,7 +13,13 @@ function SpotDisplay({ spot }) {
   return (
     <div>
       <Link className="spot_display" to={`/spots/${spot.id}`} title={spot.name}>
-        <img className="spot_image" src={spot.previewImage} />
+        <img
+          className="spot_image"
+          src={
+            spot.previewImage ||
+            "https://atlas-content-cdn.pixelsquid.com/stock-images/simple-house-NxE5a78-600.jpg"
+          }
+        />
         <div className="spot_info">
           <div style={{ gridColumnStart: "1", textAlign: "left" }}>
             {spot.city}
@@ -65,14 +71,8 @@ function SpotDisplay({ spot }) {
         className="actions"
         style={{ display: "flex", alignSelf: "baseline" }}
       >
-        <Link
-          to={`/spots/${spot.id}/edit`}
-          onClick={(e) => e.stopPropagation()}
-        >
-          Update
-        </Link>
+        <Link to={`/spots/${spot.id}/edit`}>Update</Link>
         <OpenModalButton
-          onButtonClick={(e) => e.stopPropagation()}
           buttonText="Delete"
           modalComponent={<DeleteSpot spotId={spot.id} />}
         ></OpenModalButton>
@@ -90,17 +90,20 @@ function MySpots() {
 
   const spots = useSelector((state) => state.spots);
   const user = useSelector((state) => state.session.user);
-  console.log(spots);
+  const mySpots = Object.values(spots)
+    .filter((spot) => spot?.ownerId === user.id)
+    .map((spot) => <SpotDisplay key={spot.id} spot={spot}></SpotDisplay>);
   return (
     <div>
-      <h1 className="title">My Spots</h1>
+      <h1 className="title">Manage Spots</h1>
       <div className="spot_display_wrapper" style={{}}>
-        {user &&
-          Object.values(spots)
-            .filter((spot) => spot?.ownerId === user.id)
-            .map((spot) => (
-              <SpotDisplay key={spot.id} spot={spot}></SpotDisplay>
-            ))}
+        {user && mySpots.length ? (
+          mySpots
+        ) : (
+          <div className="actions">
+            <Link to={"/create-spot"}>Create a New Spot</Link>
+          </div>
+        )}
       </div>
     </div>
   );

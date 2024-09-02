@@ -105,6 +105,7 @@
   transition: 500ms;
   font-size: x-small;
   overflow: hidden;
+  font-size: small;
 }
 
 .profile-dropdown.active {

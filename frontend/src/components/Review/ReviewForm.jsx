@@ -1,42 +1,47 @@
 import { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { useModal } from "../../context/Modal";
 import { FaStar, FaRegStar } from "react-icons/fa";
 import "./ReviewForm.css";
 import * as reviewActions from "../../store/reviews";
-import * as spotActions from "../../store/spots";
 
 export default function ReviewForm({
-  review: { review = "", stars = 5, id, spotId: storedId } = {},
-  spotId,
+  review: { review = "", stars = 0, id, spotId: storedId } = {},
+  spotId,userId
 }) {
-  const [tempStars, setTempStars] = useState(stars || 5);
+  const [tempStars, setTempStars] = useState(stars || 0);
   const [newReview, setReview] = useState(review || "");
-  const [reviewStars, setReviewStars] = useState(stars || 5);
+  const [reviewStars, setReviewStars] = useState(stars || 0);
   const { closeModal } = useModal();
-  const user = useSelector((state) => state.session.user);
   const dispatch = useDispatch();
 
   function handleSubmit() {
     if (newReview === review && stars === reviewStars) {
       closeModal();
     }
-    id
-      ? dispatch(
-          reviewActions.updateReview({
-            id,
-            spotId: spotId || storedId,
-            review: newReview,
-            stars: reviewStars,
-            userId: user.id,
-          })
-        ).then(closeModal)
-      : dispatch(
-          spotActions.createSpotReview(spotId, {
-            review: newReview,
-            stars: reviewStars,
-          })
-        ).then(closeModal);
+
+    if (id) {
+      dispatch(
+        reviewActions.updateReview( {
+          id,
+          spotId: spotId || storedId,
+          review: newReview,
+          stars: reviewStars,
+          userId,
+        })
+      )
+    } else {
+      dispatch(
+        reviewActions.createReview({
+          review: newReview,
+          stars: reviewStars,
+          userId,
+          spotId: spotId || storedId,
+        })
+      )
+    }
+
+    closeModal();
   }
 
   return (
@@ -49,10 +54,11 @@ export default function ReviewForm({
           value={newReview}
           onChange={(e) => setReview(e.target.value)}
         ></textarea>
-        <div className="stars"
+        <div
+          className="stars"
           onMouseLeave={() => {
-            setReviewStars(reviewStars || 5);
-            setTempStars(reviewStars || 5);
+            setReviewStars(reviewStars || 0);
+            setTempStars(reviewStars || 0);
           }}
         >
           <div
@@ -88,7 +94,7 @@ export default function ReviewForm({
           Stars
         </div>
         <form>
-          <button type="submit" disabled={!newReview}>
+          <button type="submit" disabled={!newReview || !reviewStars || newReview.length < 10}>
             Submit Your Review
           </button>
         </form>

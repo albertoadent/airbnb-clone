@@ -43,7 +43,7 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.DATE,
         get() {
           const date = this.getDataValue('createdAt');
-          return date ? date.toISOString().split('T')[0] : null; // Format as YYYY-MM-DD
+          return date ? [date.toISOString().split('T')[0],...date.toISOString().split('T')[1].split(":")].join("-") : null; // Format as YYYY-MM-DD
         }
       },
       updatedAt: {

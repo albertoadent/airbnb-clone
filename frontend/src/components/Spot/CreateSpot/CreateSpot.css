@@ -6,6 +6,29 @@
   margin: 10px auto;
 }
 
+.create-spot-wrapper h1 {
+  background: none;
+  border: none;
+  width: 100%;
+  justify-content: left;
+}
+.create-spot-wrapper h2 {
+  background: none;
+  border: none;
+  width: 100%;
+  justify-content: left;
+  font-size: larger;
+  font-weight: 900;
+}
+.create-spot-wrapper h3 {
+  background: none;
+  border: none;
+  width: 100%;
+  justify-content: left;
+  font-size: medium;
+  font-weight: 100;
+}
+
 .create-spot-wrapper form {
   display: flex;
   flex-direction: column;
@@ -44,4 +67,17 @@
 .create-spot-wrapper button {
   width: 100%;
   align-self: center;
+  height: 100%;
+  background-color: rgb(19, 106, 187);
+  border: solid rgb(19, 70, 71);
+  font-size: x-large;
+  padding: 10px;
+  transition: 500ms;
+  border-radius: 100px;
+}
+
+.create-spot-wrapper button:hover {
+  transition: 500ms;
+  scale: 1.2;
+  background-color: rgb(0, 175, 93);
 }
